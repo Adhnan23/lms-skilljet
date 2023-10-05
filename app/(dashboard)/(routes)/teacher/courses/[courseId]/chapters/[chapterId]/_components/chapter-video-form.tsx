@@ -3,19 +3,17 @@
 import * as z from "zod";
 import axios from "axios";
 import MuxPlayer from "@mux/mux-player-react";
-import { Pencil, PlusCircle, VideoIcon } from "lucide-react";
+import { Pencil, PlusCircle, Video } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Chapter, MuxData } from "@prisma/client";
-import Image from "next/image";
-
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 
 interface ChapterVideoFormProps {
-  initialData: Chapter & { muxData?: MuxData | null};
+  initialData: Chapter & { muxData?: MuxData | null };
   courseId: string;
   chapterId: string;
 };
@@ -27,7 +25,7 @@ const formSchema = z.object({
 export const ChapterVideoForm = ({
   initialData,
   courseId,
-  chapterId
+  chapterId,
 }: ChapterVideoFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -71,9 +69,9 @@ export const ChapterVideoForm = ({
       {!isEditing && (
         !initialData.videoUrl ? (
           <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-            <VideoIcon className="h-10 w-10 text-slate-500" />
+            <Video className="h-10 w-10 text-slate-500" />
           </div>
-        ): (
+        ) : (
           <div className="relative aspect-video mt-2">
             <MuxPlayer
               playbackId={initialData?.muxData?.playbackId || ""}
@@ -92,7 +90,7 @@ export const ChapterVideoForm = ({
             }}
           />
           <div className="text-xs text-muted-foreground mt-4">
-            Upload this chapter's video
+            Upload this chapter&apos;s video
           </div>
         </div>
       )}
