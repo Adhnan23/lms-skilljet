@@ -9,18 +9,18 @@ import { Preview } from "@/components/preview";
 
 import { VideoPlayer } from "./_components/video-player";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
+import { CourseProgressButton } from "./_components/course-progress-button";
 
 const ChapterIdPage = async ({
   params
 }: {
-  params: { courseId: string; chapterId: string},
+  params: { courseId: string; chapterId: string }
 }) => {
-
   const { userId } = auth();
-
+  
   if (!userId) {
     return redirect("/");
-  }
+  } 
 
   const {
     chapter,
@@ -37,11 +37,12 @@ const ChapterIdPage = async ({
   });
 
   if (!chapter || !course) {
-    return redirect("/");
+    return redirect("/")
   }
 
+
   const isLocked = !chapter.isFree && !purchase;
-  const completeOnEnd = !!purchase && !userProgress?.isCompleted
+  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
   return ( 
     <div>
@@ -54,7 +55,7 @@ const ChapterIdPage = async ({
       {isLocked && (
         <Banner
           variant="warning"
-          label="You need purchase this course to watch this chapter."
+          label="You need to purchase this course to watch this chapter."
         />
       )}
       <div className="flex flex-col max-w-4xl mx-auto pb-20">
@@ -75,9 +76,12 @@ const ChapterIdPage = async ({
               {chapter.title}
             </h2>
             {purchase ? (
-              <div>
-                {/* add course progress */}
-              </div>
+              <CourseProgressButton
+                chapterId={params.chapterId}
+                courseId={params.courseId}
+                nextChapterId={nextChapter?.id}
+                isCompleted={!!userProgress?.isCompleted}
+              />
             ) : (
               <CourseEnrollButton
                 courseId={params.courseId}
@@ -112,7 +116,7 @@ const ChapterIdPage = async ({
         </div>
       </div>
     </div>
-  );
+   );
 }
-
+ 
 export default ChapterIdPage;
